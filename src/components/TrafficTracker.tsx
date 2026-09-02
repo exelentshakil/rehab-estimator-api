@@ -18,33 +18,35 @@ export function TrafficTracker() {
     
     trackedRef.current[pathname] = true;
 
-    // We fetch a free IP lookup service from client, or pass to our own API
-    // To make this super reliable without extra dependencies we pass it to our API
-    fetch("https://api.ipify.org?format=json")
-      .then(res => res.json())
-      .then(data => {
-        fetch("/api/traffic", {
+    // Use a slightly different approach: don't fail silently, log if something breaks
+    const track = async () => {
+      let ip = "unknown";
+      try {
+        const res = await fetch("https://api.ipify.org?format=json");
+        const data = await res.json();
+        ip = data.ip;
+      } catch (e) {
+        console.warn("ipify failed, falling back to unknown IP");
+      }
+
+      try {
+        await fetch("/api/traffic", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             path: pathname,
             userAgent: navigator.userAgent,
-            ip: data.ip
-          })
-        }).catch(console.error);
-      })
-      .catch(() => {
-        // Fallback if ipify fails
-        fetch("/api/traffic", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            path: pathname,
-            userAgent: navigator.userAgent,
-            ip: "unknown"
-          })
-        }).catch(console.error);
-      });
+            ip: ip
+          }),
+          // Keepalive ensures the request finishes even if the user navigates away quickly
+          keepalive: true 
+        });
+      } catch (e) {
+        console.error("Failed to POST traffic", e);
+      }
+    };
+
+    track();
   }, [pathname]);
 
   return null;

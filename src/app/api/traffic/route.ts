@@ -4,21 +4,12 @@ import { createClient } from "@supabase/supabase-js";
 const url = process.env.SUPABASE_URL;
 const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-// Only create client if we have both
-const supabase = (url && key) ? createClient(url, key, {
-  db: {
-    schema: 'public',
-  },
-  global: {
-    headers: { 'x-my-custom-header': 'rehab-estimator' },
-  },
-}) : null;
+const supabase = (url && key) ? createClient(url, key) : null;
 
 export async function POST(req: Request) {
   try {
     const { path, userAgent, ip } = await req.json();
     
-    // Quick IP lookup using a free public API for geolocation
     let city = null;
     let region = null;
     let country = null;
@@ -47,17 +38,19 @@ export async function POST(req: Request) {
     };
 
     if (supabase) {
-      // Use RPC if direct insert fails due to schema cache
-      supabase.from("traffic_logs").insert(event).then(({ error }) => {
-        if (error) {
-           console.error("Traffic log insert failed:", error.message);
-        }
-      });
+      // Force await the insert so Vercel serverless doesn't kill the function before it finishes
+      const { error } = await supabase.from("traffic_logs").insert(event);
+      if (error) {
+         console.error("Traffic log insert failed:", error.message);
+      }
+    } else {
+      console.error("Supabase client not initialized - check env vars");
     }
 
     return NextResponse.json({ success: true });
-  } catch (e) {
-    return NextResponse.json({ success: false }, { status: 500 });
+  } catch (e: any) {
+    console.error("Traffic POST error:", e);
+    return NextResponse.json({ success: false, error: e.message }, { status: 500 });
   }
 }
 
@@ -75,7 +68,6 @@ export async function GET(req: Request) {
       .limit(limit);
       
     if (error) {
-        // If we still get the schema cache error, return empty array instead of failing the UI
         if (error.code === "42P01" || error.message.includes("schema cache")) {
             return NextResponse.json({ 
                 error: "Table does not exist yet. Run supabase_traffic.sql in your Supabase SQL editor.",
