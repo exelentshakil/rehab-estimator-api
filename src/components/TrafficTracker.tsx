@@ -8,6 +8,11 @@ export function TrafficTracker() {
   const trackedRef = useRef<Record<string, boolean>>({});
 
   useEffect(() => {
+    // Check if the user is an admin bypassing tracking via localStorage
+    if (typeof window !== 'undefined' && window.localStorage.getItem('disable_tracking') === 'true') {
+      return;
+    }
+
     // Only track once per path per session to avoid spam
     if (!pathname || trackedRef.current[pathname]) return;
     

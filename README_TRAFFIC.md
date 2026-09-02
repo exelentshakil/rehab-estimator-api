@@ -37,3 +37,21 @@ WITH CHECK (true);
 Once that is run, anyone who visits the app will have their IP, Geolocation (City/Region/Country), and device type logged. 
 
 You can view the live traffic dashboard at: `/traffic` (or click "Traffic" in the top navbar).
+
+### How to Hide Yourself From Tracking
+
+If you don't want your own page views to clutter up the analytics while you are testing, you can disable tracking for your specific browser.
+
+Open your browser's Developer Tools (F12 or Cmd+Option+I), go to the **Console** tab, and run:
+
+```javascript
+localStorage.setItem('disable_tracking', 'true')
+```
+
+Refresh the page. From now on, your visits will not be sent to the `/api/traffic` endpoint.
+
+To re-enable tracking, run:
+
+```javascript
+localStorage.removeItem('disable_tracking')
+```

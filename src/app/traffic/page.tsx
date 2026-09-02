@@ -40,13 +40,13 @@ export default function TrafficPage() {
     acc[key] = (acc[key] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
-  const topLocations = Object.entries(locations).sort((a, b) => b[1] - a[1]).slice(0, 7);
+  const topLocations = Object.entries(locations).sort((a, b) => (b[1] as number) - (a[1] as number)).slice(0, 7);
 
   const paths = logs.reduce((acc, log) => {
     acc[log.path] = (acc[log.path] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
-  const topPaths = Object.entries(paths).sort((a, b) => b[1] - a[1]).slice(0, 7);
+  const topPaths = Object.entries(paths).sort((a, b) => (b[1] as number) - (a[1] as number)).slice(0, 7);
 
   return (
     <div className="dark min-h-screen bg-[#0E1015] text-[#ECECF1] font-sans selection:bg-[#FF5500]/30 pb-24">
