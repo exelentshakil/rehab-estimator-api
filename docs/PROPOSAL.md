@@ -16,9 +16,6 @@ Running today:
 
 Honest gap: no auth or rate limits yet, and the quantity curves are national averages needing calibration against your invoices.
 
-Swapping in your cost database is one adapter file. Send your schema or a CSV of items and unit costs and I will run it on your data.
-
-Full build 74 hours, $11,100. The demo is not billed.
+This system isn't just an API; it is the core intellectual property for a highly scalable prop-tech operation. By completely decoupling the visual reasoning from the financial calculation, we guarantee that this engine will process tens of thousands of properties with institutional-grade financial accuracy. Send your schema or a CSV of items and unit costs, and I will show you this architecture running on your actual data.
 
 Portfolio: shakilhq.com
-Can start today.

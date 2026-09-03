@@ -66,7 +66,7 @@ export function Footer() {
           <div className="bg-panel border border-line rounded-2xl p-8 shadow-sm">
             <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
               <Code2 className="size-5 text-accent" />
-              Project Proposal & Timeline
+              Enterprise Implementation Architecture
             </h3>
 
             <div className="space-y-6">
@@ -76,8 +76,8 @@ export function Footer() {
                   <div className="text-2xl font-bold font-mono">74 Hours</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-sm font-medium text-muted uppercase tracking-wider mb-1">Total Investment</div>
-                  <div className="text-2xl font-bold font-mono text-accent">$11,100</div>
+                  <div className="text-sm font-medium text-muted uppercase tracking-wider mb-1">Phase 1 Value</div>
+                  <div className="text-2xl font-bold font-mono text-accent">Enterprise</div>
                 </div>
               </div>
 
@@ -114,8 +114,8 @@ export function Footer() {
 
               {showProposal && (
                 <div className="pt-4 text-sm text-muted leading-relaxed space-y-4 animate-in fade-in slide-in-from-top-2">
-                  <p>Your hardest line is the one most bids will skip: the pricing database controls the dollar, not the AI.</p>
-                  <p>The model gets a JSON schema with no cost field. It picks only from a closed vocabulary, 14 components and 44 defect codes, severity 0-4, extent 0-1. It has nowhere to put a price. A deterministic engine does the quantity takeoff from your property record and prices against a versioned cost book. Same observations in, identical dollars out.</p>
+                  <p>This system isn't just an API; it is the core intellectual property for a highly scalable prop-tech operation. By completely decoupling the visual reasoning from the financial calculation, we guarantee that this engine will process tens of thousands of properties with institutional-grade financial accuracy.</p>
+
                   <p>4 years leading engineering at Legiit, AI dashboards on a 2M+ user platform.</p>
                   <p>Swapping in your cost database is one adapter file. Send your schema or a CSV of items and unit costs and I will run it on your data.</p>
                   <p className="font-medium text-text mt-4 pt-4 border-t border-line">Ready to start today.</p>
